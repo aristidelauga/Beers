@@ -31,8 +31,12 @@ struct BeerRow: View {
           .foregroundColor(.gray)
           .frame(maxWidth: UIScreen.main.bounds.width * 0.7)
         Button {
-          selectedBeer = beer
-          isSelected.toggle()
+          if selectedBeer != beer{
+            selectedBeer = beer
+            isSelected.toggle()
+          } else {
+            isSelected = false
+          }
         } label: {
           Text("MORE INFO")
             .foregroundColor(.yellow)

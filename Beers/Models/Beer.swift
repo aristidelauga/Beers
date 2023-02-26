@@ -23,3 +23,15 @@ struct Beer: Codable {
     return urlString ?? URL(string: "https://images.punkapi.com/v2/5.png")!
   }
 }
+
+extension Beer: Equatable {
+  static func == (lhs: Beer, rhs: Beer) -> Bool {
+    return lhs.id == rhs.id &&
+    lhs.name == rhs.name &&
+    lhs.tagline == rhs.tagline &&
+    lhs.description == rhs.description &&
+    lhs.image_url == rhs.image_url &&
+    lhs.formattedTagline == rhs.formattedTagline &&
+    lhs.image == rhs.image
+  }
+}
