@@ -7,7 +7,7 @@
 
 import Foundation
 
-var beerPreview: [Beer] = load("beerPreview.json")
+var beerPreview: [Beer] = load("BeerPreview.json")
 
 func load<T: Decodable> (_ filename: String) -> T {
   

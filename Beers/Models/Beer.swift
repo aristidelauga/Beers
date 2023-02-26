@@ -11,7 +11,7 @@ import Foundation
 struct Beer: Codable {
   let id: Int
   let name, tagline, description, image_url: String
-  var formattedString: String {
+  var formattedTagline: String {
     if tagline.hasSuffix(".") {
       let newTagline = tagline.dropLast()
       return String(newTagline)
