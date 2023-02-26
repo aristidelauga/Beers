@@ -9,7 +9,7 @@ import Foundation
 
 @MainActor
 final class BeerViewModel: ObservableObject {
-  @Published var beers = [Beers]()
+  @Published var beers = [Beer]()
   @Published var favoriteBeers = [Beer]()
   @Published var isLoading = false
   var page = 1
@@ -18,6 +18,39 @@ final class BeerViewModel: ObservableObject {
   func getBeers() async throws -> [Beer] {
     guard let url = URL(string: "https://api.punkapi.com/v2/beers?page=2&per_page=25") else {
       fatalError("Incomplete or failing URL")
+    }
+    
+    let urlRequest = URLRequest(url: url)
+    
+    let (data, _) = try await URLSession.shared.data(for: urlRequest)
+    
+    let decodedData = try JSONDecoder().decode([Beer].self, from: data)
+    
+    return decodedData
+  }
+  
+  func getMoreBeers() async throws {
+    
+    guard !isLoading else { return }
+    
+    guard let url = URL(string: "https://api.punkapi.com/v2/beers?page=\(page + 1)&per_page=25") else {
+      fatalError("Incomplete or failing URL while getting more beers")
+    }
+    
+    let urlRequest = URLRequest(url: url)
+    
+    let (data, _) = try await URLSession.shared.data(for: urlRequest)
+    let newBeers = try JSONDecoder().decode([Beer].self, from: data)
+    self.beers += newBeers
+    self.page = 1
+    isLoading = false
+  }
+  
+  func addToFavoriteBeers(_ selectedBeer: Beer) {
+    if !favoriteBeers.contains(where: { beer in
+      selectedBeer.id == beer.id
+    }) {
+      favoriteBeers.append(selectedBeer)
     }
   }
 }
