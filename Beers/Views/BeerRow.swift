@@ -10,6 +10,7 @@ import SwiftUI
 struct BeerRow: View {
   @Binding var isSelected: Bool
   @Binding var selectedBeer: Beer
+  @Binding var offset: CGFloat
   var beer: Beer
   var body: some View {
     HStack(spacing: 15) {
@@ -31,11 +32,14 @@ struct BeerRow: View {
           .foregroundColor(.gray)
           .frame(maxWidth: UIScreen.main.bounds.width * 0.7)
         Button {
-          if selectedBeer != beer{
-            selectedBeer = beer
-            isSelected.toggle()
-          } else {
-            isSelected = false
+          withAnimation(.spring()) {
+            if selectedBeer != beer {
+              selectedBeer = beer
+              isSelected = true
+            } else {
+              isSelected = false
+              selectedBeer = beerPreview.first!
+            }
           }
         } label: {
           Text("MORE INFO")
@@ -51,7 +55,7 @@ struct BeerRow: View {
 
 struct BeerRow_Previews: PreviewProvider {
   static var previews: some View {
-    BeerRow(isSelected: .constant(.random()), selectedBeer: .constant(beerPreview.first!), beer: beerPreview.first!)
+    BeerRow(isSelected: .constant(.random()), selectedBeer: .constant(beerPreview.first!), offset: .constant(0.0), beer: beerPreview.first!)
       .preferredColorScheme(.dark)
   }
 }

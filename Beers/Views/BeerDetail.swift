@@ -9,7 +9,6 @@ import SwiftUI
 
 struct BeerDetail: View {
   @StateObject var beerViewModel = BeerViewModel()
-  @FocusState var isTextFieldInUse: Bool
   var beer: Beer
   var body: some View {
     ZStack(alignment: .topTrailing) {

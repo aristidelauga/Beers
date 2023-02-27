@@ -10,7 +10,6 @@ import SwiftUI
 struct TopView: View {
   @StateObject var beerVM = BeerViewModel()
   @Binding var researchText: String
-  @FocusState private var textFieldinUse: Bool
   var onCommit: (String) -> Void
   var body: some View {
     VStack {
@@ -20,7 +19,6 @@ struct TopView: View {
       HStack {
         Button {
           self.onCommit(researchText)
-          textFieldinUse = false
         } label: {
           Image(systemName: "magnifyingglass")
             .imageScale(.large)
@@ -29,12 +27,10 @@ struct TopView: View {
         }
         TextField("Search for a beer", text: $researchText, onCommit: {
           self.onCommit(researchText)
-          textFieldinUse = false
         })
         .padding()
         .foregroundColor(.white)
         .submitLabel(.search)
-        .focused($textFieldinUse)
       }
       .background(Color.gray.opacity(0.2))
       .cornerRadius(10)
