@@ -13,6 +13,7 @@ struct ContentView: View {
   @State private var researchText = ""
   @State private var beerDetailOffset: CGFloat = 0.0
   @State private var selectedToPresentDetail = false
+  @State private var isEditing = false
   var onCommit: (String) -> Void
   var filteredBeers: [Beer] {
     if researchText == "" {
@@ -26,6 +27,13 @@ struct ContentView: View {
   var body: some View {
     VStack {
       TopView(researchText: $researchText, onCommit: onCommit)
+        .onChange(of: researchText) { _ in
+          selectedToPresentDetail = false
+          isEditing = true
+        }
+        .onSubmit {
+          isEditing = false
+        }
       Spacer()
       if beerVM.beers.isEmpty {
         ProgressView()
@@ -75,7 +83,7 @@ struct ContentView: View {
           }
         }
       }
-      if selectedToPresentDetail {
+      if selectedToPresentDetail && !isEditing {
         if let beer = beer {
           ZStack(alignment: .bottom) {
             VStack {

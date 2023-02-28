@@ -30,7 +30,7 @@ struct TopView: View {
         })
         .padding()
         .foregroundColor(.white)
-        .submitLabel(.search)
+        .submitLabel(.return)
       }
       .background(Color.gray.opacity(0.2))
       .cornerRadius(10)
@@ -52,6 +52,8 @@ struct TopView: View {
       }
       .background(Color(#colorLiteral(red: 0.9882352941, green: 0.6862745098, blue: 0.1960784314, alpha: 1)))
       .cornerRadius(15)
+      .padding(5)
+
     }
   }
 }

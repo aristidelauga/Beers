@@ -39,7 +39,10 @@ final class BeerViewModel: ObservableObject {
     
     let urlRequest = URLRequest(url: url)
     
-    let (data, _) = try await URLSession.shared.data(for: urlRequest)
+    let (data, response) = try await URLSession.shared.data(for: urlRequest)
+    guard (response as? HTTPURLResponse)?.statusCode == 200 else {
+      throw fatalError("Error while fetching the data.")
+    }
     let newBeers = try JSONDecoder().decode([Beer].self, from: data)
     self.beers += newBeers
     self.page = 1
